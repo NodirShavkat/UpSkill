@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.templatetags.static import static
 
 
 class Teacher(models.Model):
@@ -35,9 +36,39 @@ class Course(models.Model):
     overview = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='courses/', blank=True, null=True)
+    price = models.DecimalField(
+        max_digits=6, 
+        decimal_places=2, 
+        default=0.00, 
+        help_text="Kurs narxi (Masalan: 49.99)"
+    )
+    duration_hours = models.FloatField(
+        default=0.0, 
+        help_text="Kursning umumiy davomiyligi (soatlarda)"
+    )
+    skill_level = models.CharField(
+        max_length=50, 
+        default='Boshlang\'ich', 
+        choices=[('Boshlang\'ich', 'Boshlang\'ich'), ('O\'rta', 'O\'rta'), ('Yuqori', 'Yuqori')]
+    )
+    rating = models.FloatField(default=0.0)
+    total_reviews = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['-created_at']
+
+    @property
+    def get_image_url(self):
+        if not self.image:
+            return static('img/not_found_image.jpg')
+        return self.image.url
+    
+    @property
+    def total_lectures(self):
+        return Content.objects.filter(module__course=self).count()
+        
+    def __str__(self):
+        return self.title
 
 
 class Module(models.Model):
