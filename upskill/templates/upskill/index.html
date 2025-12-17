@@ -77,10 +77,9 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Subjects</a>
                         <div class="dropdown-menu m-0">
-                            <a href="course.html" class="dropdown-item">Web Design</a>
-                            <a href="course.html" class="dropdown-item">Frontend</a>
-                            <a href="course.html" class="dropdown-item">Backend</a>
-                            <a href="course.html" class="dropdown-item">AI</a>
+                            {% for subject in subjects %}
+                                <a href="{% url 'upskill:course' subject.slug %}" class="dropdown-item">{{ subject.title }}</a>
+                            {% endfor %}
                         </div>
                     </div>
                     <a href="{% url 'upskill:course' %}" class="nav-item nav-link">Courses</a>
