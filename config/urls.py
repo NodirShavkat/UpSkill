@@ -21,9 +21,11 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('upskill/', include('upskill.urls')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('upskill/', include('upskill.urls', namespace="upskill")),
+    path('user/', include('user.urls', namespace="user")),
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     

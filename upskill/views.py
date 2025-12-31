@@ -1,16 +1,21 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Course, Subject, Content
+from .models import Course, Subject
 from django.views.generic import ListView
-from django.http import HttpRequest
 
 
 class IndexView(ListView):
+    model = Subject
     template_name = 'upskill/index.html'
     context_object_name = 'subjects'
+    ordering = ['id']
     
     def get_queryset(self):
-        subjects = Subject.objects.all()
-        return subjects
+        queryset = super().get_queryset()
+        subject_slug = self.kwargs.get('subject_slug')
+        
+        if subject_slug:
+            queryset = queryset.filter(slug=subject_slug)
+        return queryset
 
 
 def course(request, subject_slug):
@@ -36,3 +41,4 @@ def course_detail(request, slug):
         'subjects': all_subjects,
     }
     return render(request, 'upskill/detail.html', context)
+
