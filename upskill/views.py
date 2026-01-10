@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Course, Subject
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 
 
 class IndexView(ListView):
@@ -17,6 +17,10 @@ class IndexView(ListView):
             queryset = queryset.filter(slug=subject_slug)
         return queryset
 
+
+class AboutView(TemplateView):
+    template_name = 'upskill/about.html'
+    
 
 def course(request, subject_slug):
     if subject_slug:

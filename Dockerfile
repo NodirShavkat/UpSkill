@@ -12,6 +12,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Loyihani konteynerga nusxalash
 COPY . .
 
+RUN python manage.py collectstatic --noinput
+
 # Portni ochish
 EXPOSE 8000
 

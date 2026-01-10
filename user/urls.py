@@ -4,5 +4,5 @@ from .views import RegisterView
 app_name = "upskill"
 
 urlpatterns = [
-    # path('register/', RegisterView.as_view(), name='register'),
+    path('register/', RegisterView, name='register'),
 ]
